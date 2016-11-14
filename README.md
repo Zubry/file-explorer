@@ -9,3 +9,5 @@ To run:
 `electron .`
 
 Make sure you `npm install -g electron-prebuilt`
+
+**(c) James and Kartik**
