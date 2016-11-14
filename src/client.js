@@ -1,9 +1,8 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Gallery from './components/gallery.js';
 
-module.exports = () => {
-  ReactDOM.render(
-    <h1>Hello, Kartik!</h1>,
-    document.getElementById('root')
-  );
-}
+ReactDOM.render(
+  <Gallery />,
+  document.getElementById('root')
+);

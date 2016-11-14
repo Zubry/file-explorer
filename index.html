@@ -10,7 +10,14 @@
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
     <script>
-      require('./dist/client.js')();
+      require('./dist/client.js');
     </script>
   </body>
+  <style>
+    html, body, #root {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+  </style>
 </html>
