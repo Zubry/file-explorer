@@ -1,0 +1,29 @@
+{
+  "name": "file-explorer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src/ --out-dir dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zubry/file-explorer.git"
+  },
+  "author": "James Steele & Kartik Chaturvedi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zubry/file-explorer/issues"
+  },
+  "homepage": "https://github.com/Zubry/file-explorer#readme",
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0"
+  }
+}
