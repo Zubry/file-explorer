@@ -34,14 +34,14 @@ class Gallery extends React.Component {
 
   render() {
     return <div style={{
-      // width:"100%",
-      minHeight:"100%",
-      backgroundColor:"#ECEFF1",
+      width: "calc(100% - 20rem)",
+      minHeight: "100%",
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-around",
       alignItems: "flex-start",
       alignContent: "flex-start",
+      margin: "0 auto",
     }}>
       {
         this

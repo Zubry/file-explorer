@@ -28,71 +28,32 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Gallery = function (_React$Component) {
-  _inherits(Gallery, _React$Component);
+var Sidebar = function (_React$Component) {
+  _inherits(Sidebar, _React$Component);
 
-  function Gallery(props) {
-    _classCallCheck(this, Gallery);
+  function Sidebar(props) {
+    _classCallCheck(this, Sidebar);
 
-    var _this = _possibleConstructorReturn(this, (Gallery.__proto__ || Object.getPrototypeOf(Gallery)).call(this, props));
-
-    _this.state = {
-      files: [],
-      workingDirectory: _this.props.workingDirectory || process.env.HOME
-    };
-
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
+    return _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call(this, props));
   }
 
-  _createClass(Gallery, [{
-    key: 'handleChange',
-    value: function handleChange(nextDirectory) {
-      var _this2 = this;
-
-      (0, _fs.readdir)(nextDirectory, function (err, files) {
-        _this2.setState({
-          files: files,
-          workingDirectory: nextDirectory
-        });
-      });
-    }
-  }, {
+  _createClass(Sidebar, [{
     key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this3 = this;
-
-      (0, _fs.readdir)(this.state.workingDirectory, function (err, files) {
-        _this3.setState({
-          files: files
-        });
-      });
-    }
+    value: function componentDidMount() {}
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
-
-      return _react2.default.createElement(
-        'div',
-        { style: {
-            width: "calc(100% - 20rem)",
-            minHeight: "100%",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            alignItems: "flex-start",
-            alignContent: "flex-start",
-            margin: "0 auto"
-          } },
-        this.state.files.map(function (file) {
-          return _react2.default.createElement(_file2.default, { filename: file, path: _this4.state.workingDirectory, key: file, onChange: _this4.handleChange });
-        })
-      );
+      return _react2.default.createElement('div', { style: {
+          // width:"100%",
+          minHeight: "100%",
+          backgroundColor: "#ECEFF1",
+          width: "12rem",
+          borderRight: "1px solid #CFD8DC"
+        } });
     }
   }]);
 
-  return Gallery;
+  return Sidebar;
 }(_react2.default.Component);
 
-exports.default = Gallery;
+exports.default = Sidebar;
