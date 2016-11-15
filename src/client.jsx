@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom';
 import Gallery from './components/gallery.js';
 
 ReactDOM.render(
-  <Gallery />,
+  <Gallery/>,
   document.getElementById('root')
 );

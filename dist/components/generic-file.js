@@ -16,9 +16,7 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _fs = require('fs');
 
-var _file = require('./file.js');
-
-var _file2 = _interopRequireDefault(_file);
+var _path = require('path');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,71 +26,54 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Gallery = function (_React$Component) {
-  _inherits(Gallery, _React$Component);
+var GenericFile = function (_React$Component) {
+  _inherits(GenericFile, _React$Component);
 
-  function Gallery(props) {
-    _classCallCheck(this, Gallery);
+  function GenericFile(props) {
+    _classCallCheck(this, GenericFile);
 
-    var _this = _possibleConstructorReturn(this, (Gallery.__proto__ || Object.getPrototypeOf(Gallery)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (GenericFile.__proto__ || Object.getPrototypeOf(GenericFile)).call(this, props));
 
-    _this.state = {
-      files: [],
-      workingDirectory: _this.props.workingDirectory || process.env.HOME
-    };
-
-    _this.handleChange = _this.handleChange.bind(_this);
+    _this.fullPath = (0, _path.resolve)(_this.props.path, _this.props.filename);
     return _this;
   }
 
-  _createClass(Gallery, [{
-    key: 'handleChange',
-    value: function handleChange(nextDirectory) {
-      var _this2 = this;
-
-      (0, _fs.readdir)(nextDirectory, function (err, files) {
-        _this2.setState({
-          files: files,
-          workingDirectory: nextDirectory
-        });
-      });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this3 = this;
-
-      (0, _fs.readdir)(this.state.workingDirectory, function (err, files) {
-        _this3.setState({
-          files: files
-        });
-      });
-    }
-  }, {
+  _createClass(GenericFile, [{
     key: 'render',
     value: function render() {
-      var _this4 = this;
-
+      var url = (0, _path.resolve)(__dirname, '../icons/text.svg');
       return _react2.default.createElement(
         'div',
         { style: {
-            // width:"100%",
-            minHeight: "100%",
-            backgroundColor: "#ECEFF1",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            alignItems: "flex-start",
-            alignContent: "flex-start"
+            fontFamily: 'sans-serif',
+            textAlign: 'center',
+            margin: '1rem',
+            opacity: this.props.filename[0] === '.' ? '0.7' : '1.0',
+            cursor: 'pointer'
           } },
-        this.state.files.map(function (file) {
-          return _react2.default.createElement(_file2.default, { filename: file, path: _this4.state.workingDirectory, key: file, onChange: _this4.handleChange });
-        })
+        _react2.default.createElement('div', { style: {
+            width: '6rem',
+            height: '6rem',
+            backgroundImage: 'url(' + url + ')',
+            backgroundSize: 'cover',
+            margin: 'auto'
+          } }),
+        _react2.default.createElement(
+          'div',
+          { style: {
+              maxWidth: '6rem',
+              margin: 'auto',
+              wordBreak: 'break-all',
+              maxHeight: '3.5em',
+              overflowY: 'hidden'
+            }, title: this.props.filename },
+          this.props.filename
+        )
       );
     }
   }]);
 
-  return Gallery;
+  return GenericFile;
 }(_react2.default.Component);
 
-exports.default = Gallery;
+exports.default = GenericFile;

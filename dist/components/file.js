@@ -16,9 +16,15 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _fs = require('fs');
 
-var _file = require('./file.js');
+var _path = require('path');
 
-var _file2 = _interopRequireDefault(_file);
+var _directory = require('./directory.js');
+
+var _directory2 = _interopRequireDefault(_directory);
+
+var _genericFile = require('./generic-file.js');
+
+var _genericFile2 = _interopRequireDefault(_genericFile);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,71 +34,52 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Gallery = function (_React$Component) {
-  _inherits(Gallery, _React$Component);
+var File = function (_React$Component) {
+  _inherits(File, _React$Component);
 
-  function Gallery(props) {
-    _classCallCheck(this, Gallery);
+  function File(props) {
+    _classCallCheck(this, File);
 
-    var _this = _possibleConstructorReturn(this, (Gallery.__proto__ || Object.getPrototypeOf(Gallery)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (File.__proto__ || Object.getPrototypeOf(File)).call(this, props));
+
+    _this.fullPath = (0, _path.resolve)(_this.props.path, _this.props.filename);
 
     _this.state = {
-      files: [],
-      workingDirectory: _this.props.workingDirectory || process.env.HOME
+      isDirectory: false
     };
 
     _this.handleChange = _this.handleChange.bind(_this);
     return _this;
   }
 
-  _createClass(Gallery, [{
+  _createClass(File, [{
     key: 'handleChange',
     value: function handleChange(nextDirectory) {
-      var _this2 = this;
-
-      (0, _fs.readdir)(nextDirectory, function (err, files) {
-        _this2.setState({
-          files: files,
-          workingDirectory: nextDirectory
-        });
-      });
+      this.props.onChange(nextDirectory);
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this3 = this;
+      var _this2 = this;
 
-      (0, _fs.readdir)(this.state.workingDirectory, function (err, files) {
-        _this3.setState({
-          files: files
+      (0, _fs.stat)(this.fullPath, function (err, stats) {
+        _this2.setState({
+          isDirectory: stats.isDirectory()
         });
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
-
-      return _react2.default.createElement(
-        'div',
-        { style: {
-            // width:"100%",
-            minHeight: "100%",
-            backgroundColor: "#ECEFF1",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            alignItems: "flex-start",
-            alignContent: "flex-start"
-          } },
-        this.state.files.map(function (file) {
-          return _react2.default.createElement(_file2.default, { filename: file, path: _this4.state.workingDirectory, key: file, onChange: _this4.handleChange });
-        })
-      );
+      if (this.state.isDirectory) {
+        return _react2.default.createElement(_directory2.default, { filename: this.props.filename, path: this.props.path, onChange: this.handleChange });
+      } else {
+        return _react2.default.createElement(_genericFile2.default, { filename: this.props.filename, path: this.props.path });
+      }
     }
   }]);
 
-  return Gallery;
+  return File;
 }(_react2.default.Component);
 
-exports.default = Gallery;
+exports.default = File;
