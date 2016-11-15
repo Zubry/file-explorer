@@ -18,6 +18,8 @@ var _fs = require('fs');
 
 var _path = require('path');
 
+var _electron = require('electron');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25,6 +27,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Menu = _electron.remote.Menu,
+    MenuItem = _electron.remote.MenuItem;
 
 var Directory = function (_React$Component) {
   _inherits(Directory, _React$Component);
@@ -36,6 +41,7 @@ var Directory = function (_React$Component) {
 
     _this.fullPath = (0, _path.resolve)(_this.props.path, _this.props.filename);
     _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleContextMenu = _this.handleContextMenu.bind(_this);
     return _this;
   }
 
@@ -43,6 +49,26 @@ var Directory = function (_React$Component) {
     key: 'handleClick',
     value: function handleClick() {
       this.props.onChange(this.fullPath);
+    }
+  }, {
+    key: 'handleContextMenu',
+    value: function handleContextMenu(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+
+      var menu = new Menu();
+
+      [{
+        label: 'Copy path',
+        click: function click() {
+          return _electron.clipboard.writeText(_this2.fullPath);
+        }
+      }].map(function (item) {
+        return new MenuItem(item);
+      }).forEach(menu.append);
+
+      menu.popup(_electron.remote.getCurrentWindow());
     }
   }, {
     key: 'render',
@@ -56,7 +82,7 @@ var Directory = function (_React$Component) {
             margin: '1rem',
             opacity: this.props.filename[0] === '.' ? '0.7' : '1.0',
             cursor: 'pointer'
-          }, onClick: this.handleClick },
+          }, onClick: this.handleClick, onContextMenu: this.handleContextMenu },
         _react2.default.createElement('div', { style: {
             width: '6rem',
             height: '6rem',

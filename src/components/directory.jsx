@@ -3,16 +3,37 @@ import ReactDOM from 'react-dom';
 import { stat } from 'fs';
 import { resolve } from 'path';
 
+import { clipboard, remote } from 'electron';
+const { Menu, MenuItem } = remote;
+
 class Directory extends React.Component {
   constructor(props) {
     super(props);
 
     this.fullPath = resolve(this.props.path, this.props.filename);
     this.handleClick = this.handleClick.bind(this);
+    this.handleContextMenu = this.handleContextMenu.bind(this);
   }
 
   handleClick() {
     this.props.onChange(this.fullPath);
+  }
+
+  handleContextMenu(e) {
+    e.preventDefault();
+
+    const menu = new Menu();
+
+    [
+      {
+        label: 'Copy path',
+        click: () => clipboard.writeText(this.fullPath)
+      }
+    ]
+      .map((item) => new MenuItem(item))
+      .forEach(menu.append)
+
+    menu.popup(remote.getCurrentWindow())
   }
 
   render() {
@@ -23,7 +44,7 @@ class Directory extends React.Component {
       margin: '1rem',
       opacity: this.props.filename[0] === '.' ? '0.7' : '1.0',
       cursor: 'pointer',
-    }} onClick={this.handleClick}>
+    }} onClick={this.handleClick} onContextMenu={this.handleContextMenu}>
       <div style={{
         width: '6rem',
         height: '6rem',
